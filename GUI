@@ -20,25 +20,55 @@ public class GUI {
 	
 	private void createGUI(){
 		MainFrame = new JFrame("Want to play a game?");
-		MainFrame.setSize(600,400);
-		MainFrame.setLayout(new GridLayout(2,1));
+		MainFrame.setSize(400,400);
+	//	MainFrame.setLayout(new GridLayout(2,1));
 		MainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		MainFrame.setVisible(true);
+		MainFrame.setLayout(new GridLayout(8,8));
 		
-		
-		PanelLeft = new JPanel();
-		MainFrame.add(PanelLeft);
-		GameBoard = new JPanel();
-		PanelLeft.add(GameBoard);
+		//PanelLeft = new JPanel();
+		//MainFrame.add(PanelLeft);
+		//GameBoard = new JPanel();
+		//PanelLeft.add(GameBoard);
 		
 		boardPositions = new JButton[8][8];
-		for(int i = 0; i< 7; i++){
-			for(int j = 0; j<7; j++){
-				GameBoard.add(boardPositions[i][j]);
+		for(int i = 0; i< 8; i++){
+			for(int j = 0; j<8; j++){
+				boardPositions[i][j] = new JButton();
+				
+				MainFrame.add(boardPositions[i][j]);
 			}
 		}
+		
+		for (int x = 0; x<8; x++){
+			for (int y = 0; y < 8; y++){
+				if(x == 0 || x== 2 || x == 4 || x == 6){
+					if(y==0|| y == 2|| y == 4|| y ==6){
+					boardPositions[x][y].setBackground(Color.RED);
+					
+						}
+					else{
+						boardPositions[x][y].setBackground(Color.BLACK);
+					}
+					}
+				if(x == 1 || x== 3 || x == 5 || x == 7){
+					if(y==0|| y == 2|| y == 4|| y ==6){
+					boardPositions[x][y].setBackground(Color.BLACK);
+					
+						}
+					else{
+						boardPositions[x][y].setBackground(Color.RED);
+					}
+					}
+				
+				
+				}
+			}
+		}
+		
 
 		
 	}
 
-}
+
+

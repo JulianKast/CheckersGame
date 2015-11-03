@@ -1,0 +1,44 @@
+package game;
+
+import java.awt.*;
+
+import javax.swing.*;
+
+public class GUI {
+
+	private JFrame MainFrame;
+	private JPanel PanelLeft, PanelRight, GameBoard;
+	private JButton[][] boardPositions;
+	
+	public GUI(){
+		createGUI();
+	}
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		GUI checkers = new GUI();
+	}
+	
+	private void createGUI(){
+		MainFrame = new JFrame("Want to play a game?");
+		MainFrame.setSize(600,400);
+		MainFrame.setLayout(new GridLayout(2,1));
+		MainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		MainFrame.setVisible(true);
+		
+		
+		PanelLeft = new JPanel();
+		MainFrame.add(PanelLeft);
+		GameBoard = new JPanel();
+		PanelLeft.add(GameBoard);
+		
+		boardPositions = new JButton[8][8];
+		for(int i = 0; i< 7; i++){
+			for(int j = 0; j<7; j++){
+				GameBoard.add(boardPositions[i][j]);
+			}
+		}
+
+		
+	}
+
+}

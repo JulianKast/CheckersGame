@@ -1,0 +1,167 @@
+import java.awt.*;
+import java.awt.List;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ComponentListener;
+import java.awt.geom.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.util.*;
+
+import javax.imageio.ImageIO;
+import javax.swing.*;
+
+public class GUI implements ActionListener{
+
+	private JFrame MainFrame;
+	static ImageIcon blackChecker = new ImageIcon("C:\\Users\\Kast\\workspace\\Checkers\\src\\Black.jpg");
+	static ImageIcon redChecker = new ImageIcon("C:\\Users\\Kast\\workspace\\Checkers\\src\\Red.jpg");
+
+	private JPanel PanelLeft, PanelRight, GameBoard;
+	private JButton[][] boardPositions;
+	private Boolean[][] MoveCheck;
+	private int check = 0;
+	public GUI(){
+		createGUI();
+	}
+	
+	
+	private void createGUI(){
+
+		MainFrame = new JFrame("Want to play a game?");
+		MainFrame.setSize(400,400);
+	//	MainFrame.setLayout(new GridLayout(2,1));
+		MainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		MainFrame.setVisible(true);
+		MainFrame.setLayout(new GridLayout(8,8,1,1));
+		
+		//PanelLeft = new JPanel();
+		//MainFrame.add(PanelLeft);
+		//GameBoard = new JPanel();
+		//PanelLeft.add(GameBoard);
+	    MoveCheck = new Boolean[8][8];	
+		boardPositions = new JButton[8][8];
+		for(int i = 0; i< 8; i++){
+			for(int j = 0; j<8; j++){
+				boardPositions[i][j] = new JButton();
+				boardPositions[i][j].addActionListener(this);
+				MainFrame.add(boardPositions[i][j]);
+				MoveCheck[i][j] = false;
+			}
+		}
+	
+		
+		for (int x = 0; x<8; x++){
+			for (int y = 0; y < 8; y++){
+				if(x == 0 || x== 2 || x == 4 || x == 6){
+					if(y==0|| y == 2|| y == 4|| y ==6){
+					boardPositions[x][y].setBackground(Color.RED);
+					
+					
+						}
+					else{
+						boardPositions[x][y].setBackground(Color.BLACK);
+					}
+					}
+				if(x == 1 || x== 3 || x == 5 || x == 7){
+					if(y==0|| y == 2|| y == 4|| y ==6){
+					boardPositions[x][y].setBackground(Color.BLACK);
+					
+						}
+					else{
+						boardPositions[x][y].setBackground(Color.RED);
+					}
+					}
+				
+				
+				}
+			}
+		StartingPositons();
+		}
+	public void paintComponent(Graphics g){
+		g.setColor(Color.RED);
+		g.fillOval(50, 50, 20, 20);
+	}
+	public void StartingPositons(){
+		
+		
+		boardPositions[0][1].setIcon(blackChecker);
+		boardPositions[0][1].setForeground(Color.white);
+		boardPositions[0][3].setIcon(redChecker);
+		boardPositions[0][3].setForeground(Color.white);
+		boardPositions[0][5].setIcon(redChecker);
+		boardPositions[0][5].setForeground(Color.white);
+		boardPositions[0][7].setIcon(redChecker);
+		boardPositions[0][7].setForeground(Color.white);
+		boardPositions[1][0].setText("O");
+		boardPositions[1][0].setForeground(Color.white);
+		boardPositions[1][2].setText("O");
+		boardPositions[1][2].setForeground(Color.white);
+		boardPositions[1][4].setText("O");
+		boardPositions[1][4].setForeground(Color.white);
+		boardPositions[1][6].setText("O");
+		boardPositions[1][6].setForeground(Color.white);
+		boardPositions[2][1].setText("O");
+		boardPositions[2][1].setForeground(Color.white);
+		boardPositions[2][3].setText("O");
+		boardPositions[2][3].setForeground(Color.white);
+		boardPositions[2][5].setText("O");
+		boardPositions[2][5].setForeground(Color.white);
+		boardPositions[2][7].setText("O");
+		boardPositions[2][7].setForeground(Color.white);
+		
+		boardPositions[5][0].setText("O");
+		boardPositions[5][0].setForeground(Color.green);
+		boardPositions[5][2].setText("O");
+		boardPositions[5][2].setForeground(Color.green);
+		boardPositions[5][4].setText("O");
+		boardPositions[5][4].setForeground(Color.green);
+		boardPositions[5][6].setText("O");
+		boardPositions[5][6].setForeground(Color.green);
+		boardPositions[6][1].setText("O");
+		boardPositions[6][1].setForeground(Color.green);
+		boardPositions[6][3].setText("O");
+		boardPositions[6][3].setForeground(Color.green);
+		boardPositions[6][5].setText("O");
+		boardPositions[6][5].setForeground(Color.green);
+		boardPositions[6][7].setText("O");
+		boardPositions[6][7].setForeground(Color.green);
+		boardPositions[7][0].setText("O");
+		boardPositions[7][0].setForeground(Color.green);
+		boardPositions[7][2].setText("O");
+		boardPositions[7][2].setForeground(Color.green);
+		boardPositions[7][4].setText("O");
+		boardPositions[7][4].setForeground(Color.green);
+		boardPositions[7][6].setText("O");
+		boardPositions[7][6].setForeground(Color.green);
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		int x;
+		int y;
+		for (int i = 0; i < 8; i++){
+			for (int j = 0; j < 8; j++){
+				if(e.getSource() == boardPositions[i][j]){
+					MoveCheck[i][j] = true;
+					check++;
+					if(check == 2){
+						Player1.moves(MoveCheck, boardPositions);
+						check = 0;
+					}
+					
+				}
+			}
+		}
+		
+	}
+	
+		
+		
+	}
+		
+
+		
+

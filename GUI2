@@ -1,0 +1,93 @@
+package checkersAttempt;
+
+
+
+import java.awt.Component;
+import java.awt.GridLayout;
+
+import javax.swing.*;
+
+public class GUI {
+	private JFrame frame;
+	private JPanel[][] Pane;
+	private ImageIcon[] blackSqr;
+	private ImageIcon[] redSqr;
+	private JLabel[] blackLbl;
+	private JLabel[] redLbl;
+	
+	public GUI(){
+	createGUI();	
+	}
+		
+	
+	public static void main(String[] args) {
+		GUI checkers = new GUI();
+		
+	
+	}
+	
+	private void createGUI(){
+	
+	    frame = new JFrame("lets figure this out");
+		frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
+		frame.setSize(400,400);
+		frame.setVisible(true);
+		frame.setLayout(new GridLayout(8,8));
+		Pane = new JPanel[8][8];
+		blackSqr = new ImageIcon[32];
+		blackLbl = new JLabel[32];
+		redSqr = new ImageIcon[32];
+		redLbl = new JLabel[32];
+		
+		for ( int z = 0; z < 32; z++){
+			blackSqr[z] = new ImageIcon(getClass().getResource("blackSqr.jpg"));
+			blackLbl[z] = new JLabel(blackSqr[z]);
+			redSqr[z] = new ImageIcon(getClass().getResource("RedSquare.jpg"));
+			redLbl[z] = new JLabel(redSqr[z]);
+		}
+		for(int i = 0; i< 8; i++){
+			for(int j = 0; j<8; j++){
+				Pane [i][j] = new JPanel();
+				
+				frame.add(Pane[i][j]);
+			
+			}
+		}
+		
+	int blackIN = 0;
+	int redIN = 0;
+		for (int x = 0; x<8; x++){
+			for (int y = 0; y < 8; y++){
+				if(x == 0 || x== 2 || x == 4 || x == 6){
+					if(y==0|| y == 2|| y == 4|| y ==6){
+					Pane[x][y].add(redLbl[redIN]);
+					redIN++;
+					
+						}
+					else{
+						Pane[x][y].add(blackLbl[blackIN]);
+						blackIN++;
+					}
+					}
+				if(x == 1 || x== 3 || x == 5 || x == 7){
+					if(y==0|| y == 2|| y == 4|| y ==6){
+					Pane[x][y].add(blackLbl[blackIN]);
+					blackIN++;
+					
+						}
+					else{
+						Pane[x][y].add(redLbl[redIN]);
+						redIN++;
+					}
+					}
+				
+				
+				}
+			}
+		
+	
+	
+}
+		
+	}
+	

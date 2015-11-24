@@ -1,0 +1,54 @@
+package check;
+import java.awt.Color;
+
+import javax.swing.JButton;
+
+public class Player1 extends GUI{
+		
+	static boolean isJump = false;
+	public static void move(Object boardPos){
+		System.out.println(boardPos);
+		
+		for (int i = 0; i < 8; i++){
+			for (int j = 0; j < 8; j++){
+				if(boardPos == boardPositions[i][j]&& isWhiteP[i][j]){
+					System.out.println(boardPositions[i][j]);
+					checkX = i;
+					checkY = j;
+					check = 1;
+					}
+				else if(boardPos == boardPositions[i][j]&& check == 1 && !isWhiteP[i][j]&& isLegalMove(checkX,checkY,i,j)){
+					if(isJump){
+						
+					}
+					
+					
+					boardPositions[i][j].setIcon(whiteP);
+					boardPositions[checkX][checkY].setIcon(null);
+					isWhiteP[i][j] = true;
+					isWhiteP[checkX][checkY] = false;
+					check = 0;
+					PlayerTurn = false;
+				}
+			}
+		
+	}
+	}
+	public static boolean isLegalMove(int chY , int chX, int  i, int j){
+		
+		if( (chY-1 == i && chX-1 == j && chY >0 && chX>0 && !isBlueP[i][j])){
+			return true;
+		}
+		else if( chY-1 == i && chX+1 == j&& !isBlueP[i][j]){
+			return true;
+		}
+		else if(chY-2 == i && chX-2 == j &&isBlueP[chY-1][chX-1]){
+			isJump = true;
+			return true;
+		}
+		
+		return false;
+	}
+}
+
+			

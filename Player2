@@ -1,0 +1,48 @@
+package check;
+
+public class Player2 extends GUI{
+	
+	static boolean isJump = false;
+	
+	public static void move(Object boardPos){
+		System.out.println(boardPos);
+		
+		for (int i = 0; i < 8; i++){
+			for (int j = 0; j < 8; j++){
+				if(boardPos == boardPositions[i][j]&& isBlueP[i][j]){
+					System.out.println(boardPositions[i][j]);
+					checkX = i;
+					checkY = j;
+					check = 1;
+					}
+				else if(boardPos == boardPositions[i][j]&& check == 1 && !isBlueP[i][j]){
+					boardPositions[i][j].setIcon(blueP);
+					boardPositions[checkX][checkY].setIcon(null);
+					isBlueP[i][j] = true;
+					isBlueP[checkX][checkY] = false;
+					check = 0;
+					PlayerTurn = true;
+					
+				}
+			}
+		
+		}
+	}
+		public static boolean isLegalMove(int chY , int chX, int  i, int j){
+			
+			if( (chY+1 == i && chX+1 == j && chY >0 && chX>0 && !isWhiteP[i][j])){
+				return true;
+			}
+			else if( chY+1 == i && chX-1 == j&& !isWhiteP[i][j]){
+				return true;
+			}
+			else if(chY+2 == i && chX+2 == j &&isBlueP[chY-1][chX-1]){
+				isJump = true;
+				return true;
+			}
+			
+			return false;
+		
+		}
+
+}

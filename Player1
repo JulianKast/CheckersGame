@@ -1,54 +1,105 @@
 package check;
-import java.awt.Color;
-
-import javax.swing.JButton;
 
 public class Player1 extends GUI{
 		
-	static boolean isJump = false;
-	public static void move(Object boardPos){
-		System.out.println(boardPos);
+	public static void Move(Object boardPos){
+		//System.out.println(boardPos);
 		
 		for (int i = 0; i < 8; i++){
 			for (int j = 0; j < 8; j++){
-				if(boardPos == boardPositions[i][j]&& isWhiteP[i][j]){
-					System.out.println(boardPositions[i][j]);
+				if(boardPos == boardPositions[i][j] && isWhiteP[i][j] != "" && check == 0 && ((justJumped && i == stillJumpY) || (!checkMove() || MoveCheck[i][j]))){
+				//	System.out.println(boardPositions[i][j]);
 					checkX = i;
 					checkY = j;
 					check = 1;
+					return;
 					}
-				else if(boardPos == boardPositions[i][j]&& check == 1 && !isWhiteP[i][j]&& isLegalMove(checkX,checkY,i,j)){
-					if(isJump){
-						
+				else if(boardPos == boardPositions[i][j] && check == 1 && isWhiteP[i][j] == "" && isLegalMove(checkX,checkY,i,j)){
+					
+					if (isWhiteP[checkX][checkY] == "k" || i == 0){
+						if(i == 0 && isWhiteP[checkX][checkY] == "p"){
+							justJumped = false;
+						}
+						boardPositions[i][j].setIcon(whiteKing);
+						isWhiteP[i][j] = "k";
 					}
-					
-					
-					boardPositions[i][j].setIcon(whiteP);
+					else{
+						boardPositions[i][j].setIcon(whiteP);
+						isWhiteP[i][j] = "p";
+					}
+	
 					boardPositions[checkX][checkY].setIcon(null);
-					isWhiteP[i][j] = true;
-					isWhiteP[checkX][checkY] = false;
+				
+					isWhiteP[checkX][checkY] = "";
 					check = 0;
+					changJumpStatus();
+					if(justJumped && ((i-2 >= 0 && j-2 >= 0 && isBlueP[i-1][j-1] != "" && isBlueP[i-2][j-2] == "" && isWhiteP[i-2][j-2] == "") 
+							|| (i-2 >= 0 && j+2 < 8 && isBlueP[i-1][j+1] != "" && isBlueP[i-2][j+2] == "" && isWhiteP[i-2][j+2] == "")
+							|| (i+2 <8 && j-2 >=0 && isWhiteP[i][j] == "k" && isBlueP[i+1][j-1] != "" && isWhiteP[i+2][j-2] == "" && isBlueP[i+2][j-2] == "")
+							|| (i+2 <8 && j+2 <8 && isWhiteP[i][j] == "k" && isBlueP[i+1][j+1] != "" && isWhiteP[i+2][j+2] == "" && isBlueP[i+2][j+2] == ""))){
+						stillJumpY = i;
+						stillJumpX = j;
+						System.out.println("Hit1");
+						return;
+					} 
+					stillJumpY =100;
+					stillJumpX = 100;
+					turn.setText("blue");
+					justJumped = false;
+					
 					PlayerTurn = false;
+					return;
 				}
-			}
+				
 		
-	}
+			}
+		}
+		if(check == 1){
+			check = 0;
+		}
 	}
 	public static boolean isLegalMove(int chY , int chX, int  i, int j){
 		
-		if( (chY-1 == i && chX-1 == j && chY >0 && chX>0 && !isBlueP[i][j])){
+		if( chY-1 == i && chX-1 == j && chY >0 && chX>0 && isBlueP[i][j] == "" && !checkMove()){
 			return true;
 		}
-		else if( chY-1 == i && chX+1 == j&& !isBlueP[i][j]){
+		else if( chY-1 == i && chX+1 == j&& isBlueP[i][j] == "" && !checkMove()){
 			return true;
 		}
-		else if(chY-2 == i && chX-2 == j &&isBlueP[chY-1][chX-1]){
-			isJump = true;
+		else if(chY-2 == i && chX-2 == j && isBlueP[chY-1][chX-1] != "" && isBlueP[chY-2][chX-2] == ""){
+			
+			boardPositions[chY-1][chX-1].setIcon(null);
+			isBlueP[chY-1][chX-1] = "";
+			justJumped = true;
 			return true;
 		}
+		else if(chY-2 == i && chX+2 == j && isBlueP[chY-1][chX+1] != "" && isBlueP[chY-2][chX+2] == ""){
 		
+			boardPositions[chY-1][chX+1].setIcon(null);
+			isBlueP[chY-1][chX+1] = "";
+			justJumped = true;
+			return true;
+		
+		}
+		else if (isWhiteP[chY][chX] == "k" && chY+1 == i && chX+1 == j && chY < 8 && chX < 8 && !checkMove()){
+			return true;
+		}
+		else if (isWhiteP[chY][chX] == "k" && chY+1 == i && chX-1 == j && chY<8 && chX>= 0 && !checkMove()){
+			return true;
+		}
+		else if (isWhiteP[chY][chX] == "k" && chY+2 == i && chX+2 == j && isBlueP[chY+1][chX+1] != "" && isBlueP[chY+2][chX+2] == "" ){
+			boardPositions[chY+1][chX+1].setIcon(null);
+			isBlueP[chY+1][chX+1] = "";
+			justJumped = true;
+			return true;
+		}
+		else if(isWhiteP[chY][chX] == "k" && chY+2 == i && chX-2 == j && isBlueP[chY+1][chX-1] != "" && isBlueP[chY+2][chX-2] == ""){
+			boardPositions[chY+1][chX-1].setIcon(null);
+			isBlueP[chY+1][chX-1] = "";
+			justJumped = true;
+			return true;
+		}
 		return false;
 	}
+	
 }
-
-			

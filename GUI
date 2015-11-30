@@ -17,19 +17,25 @@ import javax.swing.*;
 public class GUI implements ActionListener{
 
 	private JFrame MainFrame;
-	
-	private JPanel PanelLeft, PanelRight, GameBoard;
-	protected static JButton[][] boardPositions;
-	private Boolean[][] MoveCheck;
+    private JPanel PanelLeft, PanelRight, GameBoard;
+	static JButton[][] boardPositions;
+	static JLabel turn;
+    static Boolean[][] MoveCheck;
 	static ImageIcon blueP;
+	static ImageIcon blueKing;
+	static ImageIcon whiteKing;
 	ImageIcon blackSqr;
 	static Boolean PlayerTurn = true; // true player one white, false player two blue
 	static ImageIcon whiteP;
-	protected static int check = 0;
-	static Boolean[][] isBlueP;
-	static Boolean[][] isWhiteP;
-	static int checkX = 0;
-	static int checkY = 0;
+	static int check = 0;
+	static String[][] isBlueP;
+	static String[][] isWhiteP;
+	static Boolean justJumped = false;
+	static int checkX = 100;
+	static int checkY = 100;
+	static int stillJumpX = 100;
+	static int stillJumpY = 100;
+	
 	public GUI(){
 		createGUI();
 	}
@@ -43,32 +49,39 @@ public class GUI implements ActionListener{
 	private void createGUI(){
 
 		MainFrame = new JFrame("Want to play a game?");
-		MainFrame.setSize(600,600);
+		MainFrame.setSize(1200,600);
 	
 		MainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		MainFrame.setVisible(true);
-		MainFrame.setLayout(new GridLayout(8,8,1,1));
+		MainFrame.setLayout(new GridLayout(1,0));
+		GameBoard = new JPanel();
+		GameBoard.setSize(200,200);
+		PanelRight = new JPanel();
+		PanelRight.setSize(200,200);
+		GameBoard.setLayout(new GridLayout(8,8,1,1));
 		
 	    MoveCheck = new Boolean[8][8];	
-	    isWhiteP = new Boolean[8][8];
-	    isBlueP = new Boolean[8][8];
+	    isWhiteP = new String[8][8];
+	    isBlueP = new String[8][8];
 	    
 		boardPositions = new JButton[8][8];
 
-		
+		turn = new JLabel("white");
+		PanelRight.add(turn);
 		
 			blueP = new ImageIcon(getClass().getResource("bluePice.jpg"));
 			whiteP = new ImageIcon(getClass().getResource("whitePice.jpg"));
-		
-		
+			blueKing = new ImageIcon(getClass().getResource("blueKing.jpg"));
+			whiteKing = new ImageIcon(getClass().getResource("whiteKing.jpg"));
+					
 		for(int i = 0; i< 8; i++){
 			for(int j = 0; j<8; j++){
 				boardPositions[i][j] = new JButton();
 				boardPositions[i][j].addActionListener(this);
-				MainFrame.add(boardPositions[i][j]);
+				GameBoard.add(boardPositions[i][j]);
 				MoveCheck[i][j] = false;
-				isWhiteP[i][j] = false;
-				isBlueP[i][j] = false;
+				isWhiteP[i][j] = "";
+				isBlueP[i][j] = "";
 			}
 		}
 	
@@ -98,6 +111,8 @@ public class GUI implements ActionListener{
 				
 				}
 			}
+		MainFrame.add(GameBoard);
+		MainFrame.add(PanelRight);
 		StartingPositons();
 		}
 
@@ -105,65 +120,131 @@ public class GUI implements ActionListener{
 		
 		
 		boardPositions[0][1].setIcon(blueP);
-		isBlueP[0][1] = true;
+		isBlueP[0][1] = "p";
 		boardPositions[0][3].setIcon(blueP);
-		isBlueP[0][3] = true;
+		isBlueP[0][3] = "p";
 		boardPositions[0][5].setIcon(blueP);
-		isBlueP[0][5] = true;
+		isBlueP[0][5] = "p";
 		boardPositions[0][7].setIcon(blueP);
-		isBlueP[0][7] = true;
+		isBlueP[0][7] = "p";
 		boardPositions[1][0].setIcon(blueP);
-		isBlueP[1][0] = true;
+		isBlueP[1][0] = "p";
 		boardPositions[1][2].setIcon(blueP);
-		isBlueP[1][2] = true;
+		isBlueP[1][2] = "p";
 		boardPositions[1][4].setIcon(blueP);
-		isBlueP[1][4] = true;
+		isBlueP[1][4] = "p";
 		boardPositions[1][6].setIcon(blueP);
-		isBlueP[1][6] = true;
+		isBlueP[1][6] = "p";
 		boardPositions[2][1].setIcon(blueP);
-		isBlueP[2][1] = true;
+		isBlueP[2][1] = "p";
 		boardPositions[2][3].setIcon(blueP);
-		isBlueP[2][3] = true;
+		isBlueP[2][3] = "p";
 		boardPositions[2][5].setIcon(blueP);
-		isBlueP[2][5] = true;
+		isBlueP[2][5] = "p";
 		boardPositions[2][7].setIcon(blueP);
-		isBlueP[2][7] = true;
+		isBlueP[2][7] = "p";
 		
 		boardPositions[5][0].setIcon(whiteP);
-		isWhiteP[5][0] = true;
+		isWhiteP[5][0] = "p";
 		boardPositions[5][2].setIcon(whiteP);
-		isWhiteP[5][2] = true;
+		isWhiteP[5][2] = "p";
 		boardPositions[5][4].setIcon(whiteP);
-		isWhiteP[5][4] = true;
+		isWhiteP[5][4] = "p";
 		boardPositions[5][6].setIcon(whiteP);
-		isWhiteP[5][6] = true;
+		isWhiteP[5][6] = "p";
 		boardPositions[6][1].setIcon(whiteP);
-		isWhiteP[6][1] = true;
+		isWhiteP[6][1] = "p";
 		boardPositions[6][3].setIcon(whiteP);
-		isWhiteP[6][3] = true;
+		isWhiteP[6][3] = "p";
 		boardPositions[6][5].setIcon(whiteP);
-		isWhiteP[6][5] = true;
+		isWhiteP[6][5] = "p";
 		boardPositions[6][7].setIcon(whiteP);
-		isWhiteP[6][7] = true;
+		isWhiteP[6][7] = "p";
 		boardPositions[7][0].setIcon(whiteP);
-		isWhiteP[7][0] = true;
+		isWhiteP[7][0] = "p";
 		boardPositions[7][2].setIcon(whiteP);
-		isWhiteP[7][2] = true;
+		isWhiteP[7][2] = "p";
 	    boardPositions[7][4].setIcon(whiteP);
-	    isWhiteP[7][4]= true;
+	    isWhiteP[7][4]= "p";
 		boardPositions[7][6].setIcon(whiteP);
-		isWhiteP[7][6] = true;
+		isWhiteP[7][6] = "p";
 	}
+	
+	public static boolean checkMove(){
+		int checkJ = 0;
+		for (int y = 0; y < 8; y++){
+			for (int x = 0; x<8; x++){
+				if(PlayerTurn){
+					if(x-2>0 && y-2>0 && isWhiteP[y][x] != "" && isBlueP[y-1][x-1] != "" &&(isBlueP[y-2][x-2] == "" && isWhiteP[y-2][x-2] == "")){
+						System.out.println("11");
+						MoveCheck[y][x] = true;
+						checkJ++;
+						 
+					}
+					else if(y-2>0 && x+2 < 8 && isWhiteP[y][x] != "" && isBlueP[y-1][x+1] != "" &&(isBlueP[y-2][x+2] == "" && isWhiteP[y-2][x+2] == "")){
+						System.out.println("12");
+						MoveCheck[y][x] = true;
+						checkJ++;
+					}
+					else if( y+2<8 && x+2<8 && isWhiteP[y][x] == "k" && isBlueP[y+1][x+1] != "" &&(isBlueP[y+2][x+2] == "" && isWhiteP[y+2][x+2] == "")){
+						MoveCheck[y][x] = true;
+						checkJ++;
+					}
+					else if(y+2<8 && x-2>=0 && isWhiteP[y][x] == "k" && isBlueP[y+1][x-1] != "" &&(isBlueP[y+2][x-2] == "" && isWhiteP[y+2][x-2] == "")){
+						MoveCheck[y][x] = true;
+						checkJ++;
+					}
+				}
+				else{
+					if( y+2<8 && x+2<8 && isBlueP[y][x] != "" && isWhiteP[y+1][x+1] != "" &&(isWhiteP[y+2][x+2] == "" && isBlueP[y+2][x+2] == "")){
+						System.out.println("13");
+						MoveCheck[y][x]= true;
+						checkJ++;
+					}
+					else if(y+2<8 && x-2>=0 && isBlueP[y][x] != "" && isWhiteP[y+1][x-1] != "" &&(isWhiteP[y+2][x-2] == "" && isBlueP[y+2][x-2] == "")){
+						System.out.println("14");
+						MoveCheck[y][x] = true;
+						checkJ++;
+					}
+					else if(y-2>0 && x+2 < 8 && isBlueP[y][x] == "k" && isWhiteP[y-1][x+1] != "" &&(isWhiteP[y-2][x+2] == "" && isBlueP[y-2][x+2] == "")){
+						MoveCheck[y][x] = true;
+						checkJ++;
+					}
+					else if(x-2>0 && y-2>0 && isBlueP[y][x] == "k" && isWhiteP[y-1][x-1] != "" &&(isWhiteP[y-2][x-2] == "" && isBlueP[y-2][x-2] == "")){
+						MoveCheck[y][x] = true;
+						checkJ++;
+					}
+					
+				}
+			}
+		}
+		if( checkJ > 0){
+			checkJ = 0;
+			return true;
+		}
+		check = 0;
+		return false;
+	}
+	public static void changJumpStatus(){
+		for (int y = 0; y < 8; y++){
+			for (int x = 0; x<8; x++){
+			MoveCheck[y][x] = false;	
+			}
+		}
+	}
+	
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
-		System.out.println(e.getSource());
-		if (PlayerTurn){
-			Player1.move(e.getSource());
+		if (PlayerTurn ){
+			GameController.checkWon(isBlueP, isWhiteP);
+			Player1.Move(e.getSource());
+			System.out.println(e.getSource());
 		}
-		else {
-			Player2.move(e.getSource());
+		else{
+		//	Player2.Move(e.getSource());
+			AI1.Move();
 		}
 		
 		
@@ -171,9 +252,3 @@ public class GUI implements ActionListener{
 		
 		
 	}
-	
-		
-		
-
-		
-

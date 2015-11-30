@@ -1,0 +1,84 @@
+package check;
+
+public class AI1 extends GUI{
+
+	// y+1 x+1, y+1, x-1
+	//
+	//
+	//
+	public static void Move(){
+		for(int y = 0; y < 8; y++){
+			for (int x = 0; x<8; x++){
+				if(isBlueP[y][x] != ""){
+					if(!checkMove()){
+						if(y+1 < 8 && x+1 < 8 && isWhiteP[y+1][x+1] == "" && isBlueP[y+1][x+1] == ""){
+							if(isBlueP[y][x] == "k"){
+								isBlueP[y+1][x+1] = "k";
+								boardPositions[y+1][x+1].setIcon(blueKing);
+							}
+							else{
+							
+							
+							isBlueP[y+1][x+1] = "p";
+							boardPositions[y+1][x+1].setIcon(blueP);
+							
+							
+						}
+							boardPositions[y][x].setIcon(null);
+							isBlueP[y][x] = "";
+							PlayerTurn = true;
+							return;
+					}
+						else if (y+1 < 8 && x-1 >= 0 && isWhiteP[y+1][x-1] == "" && isBlueP[y+1][x-1] == ""){
+							if(isBlueP[y][x] == "k"){
+								isBlueP[y+1][x-1] = "k";
+								boardPositions[y+1][x-1].setIcon(blueKing);
+							}
+							else{
+							
+							
+							isBlueP[y+1][x-1] = "p";
+							boardPositions[y+1][x-1].setIcon(blueP);
+							
+							
+						}
+							isBlueP[y][x] = "";
+							boardPositions[y][x].setIcon(null);
+							PlayerTurn = true;
+							return;
+						}
+					}
+					else if ((y +2 < 8 && x + 2 < 8 && isWhiteP[y+1][x+1] != "" && (isWhiteP[y+2][x+2] == "" && isBlueP[y+2][x+2] == "" ))
+							|| (y+2 <8 && x-2 >= 0 && isWhiteP[y+1][x-1] != "" && (isWhiteP[y+2][x-2] == "" && isBlueP[y+2][x-2] == ""))){
+						int y1 = 0; int y2 = 0; int x1 = 0; int x2 = 0;
+						do{
+							
+							if(y+2 <8 && x+2 < 8 && isWhiteP[y+1][x+1] != "" && (isWhiteP[y+2][x+2] == "" && isBlueP[y+2][x+2] == "")){
+								y1 = y+1; y2 = y+2;
+								x1 = x-1; x2 = x-2;
+							}
+							else if((y+2 <8 && x-2 >= 0 && isWhiteP[y+1][x-1] != "" && (isWhiteP[y+2][x-2] == "" && isBlueP[y+2][x-2] == ""))){
+								 y1 = y+1; y2 = y+2;
+								 x1 = x-1; x2 = x-2;
+							}
+							boardPositions[y1][x1].setIcon(null);
+							isWhiteP[y1][x1] = "";
+							if(isBlueP[y][x] == "k" || y == 7){
+								isBlueP[y2][x2] = "k";
+								boardPositions[y2][x2].setIcon(blueKing);
+							}
+							else{
+							isBlueP[y2][x2] = "p";
+							boardPositions[y2][x2].setIcon(blueP);
+							}
+							isBlueP[y][x] = "";
+						}while((y2 +2 < 8 && x2+2 < 8 && isWhiteP[y2+1][x2+1] != "" && (isWhiteP[y2+2][x2+2] == "" && isBlueP[y2+2][x2+2] == "" ))
+								|| (y2+2 <8 && x2-2 >= 0 && isWhiteP[y2+1][x2-1] != "" && (isWhiteP[y2+2][x2-2] == "" && isBlueP[y2+2][x2-2] == "")));
+					}
+					
+					
+			}
+		}}
+	}
+
+}

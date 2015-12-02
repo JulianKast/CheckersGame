@@ -2,12 +2,13 @@ package check;
 
 public class AI1 extends GUI{
 
-	// y+1 x+1, y+1, x-1
-	//
-	//
-	//
+	public AI1(String name1, String name2) {
+		super(name1, name2);
+		// TODO Auto-generated constructor stub
+	}
+
 	public static void Move(){
-		for(int y = 7; y >= 0; y--){
+		for(int y = 7; y < 8; y--){
 			for (int x = 0; x<8; x++){
 				if(isBlueP[y][x] != ""){
 					if(!checkMove()){
@@ -114,4 +115,3 @@ public class AI1 extends GUI{
 		}}
 	}
 
-}

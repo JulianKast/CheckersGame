@@ -1,0 +1,125 @@
+package check;
+
+import java.util.Random;
+
+public class RandP2 extends GUI {
+	
+	public RandP2(String name1, String name2) {
+		super(name1, name2);
+		// TODO Auto-generated constructor stub
+	}
+
+	public static void Move(){
+		Random piceSelX = new Random();
+		Random piceSelY = new Random();
+		int y = 8; int x = 8;
+		
+		while(1==1){
+			 x = piceSelX.nextInt(8);
+			 y = piceSelY.nextInt(8);
+				if(isWhiteP[y][x] != ""){
+					if(!checkMove()){
+						  if(isWhiteP[y][x] == "k" && y+1 < 8 && x+1 < 8 && isWhiteP[y+1][x+1] == "" && isBlueP[y+1][x+1] == ""){
+							boardPositions[y+1][x+1].setIcon(whiteKing);
+							boardPositions[y][x].setIcon(null);
+							isWhiteP[y][x] = "";
+							isWhiteP[y+1][x+1] = "k";
+							PlayerTurn = false;
+							return;
+						}
+						else if(isWhiteP[y][x] == "k" && y+1 <8 && x-1 >= 0 && isBlueP[y+1][x-1] == "" && isWhiteP[y+1][x-1] == ""){
+							boardPositions[y+1][x-1].setIcon(whiteKing);
+							boardPositions[y][x].setIcon(null);
+							isWhiteP[y][x] = "";
+							isWhiteP[y+1][x-1] = "k";
+							PlayerTurn = false;
+							return;
+						}
+						else if(y-1>= 0 && x-1>=0 && isWhiteP[y-1][x-1] == "" && isBlueP[y-1][x-1] == ""){
+							if(isWhiteP[y][x] == "k" || y-1 == 0){
+								isWhiteP[y-1][x-1] = "k";
+								boardPositions[y-1][x-1].setIcon(whiteKing);
+							}
+							else{
+							
+							
+							isWhiteP[y-1][x-1] = "p";
+							boardPositions[y-1][x-1].setIcon(whiteP);
+							
+							
+						}
+							boardPositions[y][x].setIcon(null);
+							isWhiteP[y][x] = "";
+							PlayerTurn = false;
+							return;
+					}
+					else if (y-1 >= 0 && x+1 <8 && isWhiteP[y-1][x+1] == "" && isBlueP[y-1][x+1] == ""){
+							if(isWhiteP[y][x] == "k" || y-1 == 0){
+								isWhiteP[y-1][x+1] = "k";
+								boardPositions[y-1][x+1].setIcon(whiteKing);
+							}
+							else{
+							
+							
+							isWhiteP[y-1][x+1] = "p";
+							boardPositions[y-1][x+1].setIcon(whiteP);
+							
+							
+						}
+							isWhiteP[y][x] = "";
+							boardPositions[y][x].setIcon(null);
+							PlayerTurn = false;
+							return;
+						}
+					}
+					else if ((y - 2 >=0 && x - 2 >=0 && isBlueP[y-1][x-1] != "" && (isWhiteP[y-2][x-2] == "" && isBlueP[y-2][x-2] == "" ))
+							|| (y-2 >= 0 && x + 2 <8 && isBlueP[y-1][x+1] != "" && (isWhiteP[y-2][x+2] == "" && isBlueP[y-2][x+2] == ""))
+							|| isWhiteP[y][x] == "k" && y+2 < 8  && x+2 < 8 && isBlueP[y+1][x+1] != "" && (isWhiteP[y+2][x+2] == "" && isBlueP[y+2][x+2] == "")
+							|| isWhiteP[y][x] == "k" && y+2 < 8 && x-2 >= 0 && isBlueP[y+1][x-1] != "" && (isWhiteP[y+2][x-2] == "" && isBlueP[y+2][x-2] == "")){
+						int y1 = 0; int y2 = 0; int x1 = 0; int x2 = 0; int count = 0;
+						do{
+							if (count > 0){ y =y2; x = x2;}
+							if(y-2 >=0 && x+2 < 8 && isBlueP[y-1][x+1] != "" && (isWhiteP[y-2][x+2] == "" && isBlueP[y-2][x+2] == "")){
+								y1 = y-1; y2 = y-2;
+								x1 = x+1; x2 = x+2;
+							
+							}
+							else if((y-2 >=0 && x-2 >= 0 && isBlueP[y-1][x-1] != "" && (isWhiteP[y-2][x-2] == "" && isBlueP[y-2][x-2] == ""))){
+								 y1 = y-1; y2 = y-2;
+								 x1 = x-1; x2 = x-2;
+								
+							}
+							else if(isWhiteP[y][x] == "k" && y + 2 <8 && x+2 < 8 && isBlueP[y+1][x+1] != "" && (isWhiteP[y+2][x+2] == "" && isBlueP[y+2][x+2] == "")){
+								y1 = y+1; y2 = y+2;
+								x1 = x+1; x2 = x+2;
+				
+							}
+							else if(isWhiteP[y][x] == "k" && y+2 <8 && x-2 >= 0 && isBlueP[y+1][x-1] != "" && (isWhiteP[y+2][x-2] == "" && isBlueP[y+2][x-2] == "")){
+								y1 = y+1; y2 = y+2;
+								x1 = x-1; x2 = x-2;
+					
+							}
+							boardPositions[y1][x1].setIcon(null);
+							boardPositions[y][x].setIcon(null);
+							isBlueP[y1][x1] = "";
+							if(isWhiteP[y][x] == "k" || y2 == 0){
+								isWhiteP[y2][x2] = "k";
+								boardPositions[y2][x2].setIcon(whiteKing);
+							}
+							else{
+							isWhiteP[y2][x2] = "p";
+							boardPositions[y2][x2].setIcon(whiteP);
+							}
+							isWhiteP[y][x] = "";
+							count++;
+						}while((y2 -2 >=0 && x2+2 < 8 && isBlueP[y2-1][x2+1] != "" && (isWhiteP[y2-2][x2+2] == "" && isBlueP[y2-2][x2+2] == "" ))
+								|| (y2-2 >= 0 && x2-2 >= 0 && isBlueP[y2-1][x2-1] != "" && (isWhiteP[y2-2][x2-2] == "" && isBlueP[y2-2][x2-2] == "")));
+						PlayerTurn = false;
+						return;
+					}
+						
+				}
+			}	
+		}
+
+}

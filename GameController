@@ -1,0 +1,75 @@
+package check;
+
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+
+public class GameController {
+	public static String[]  player = {"Player", "AI1", "AI2"};
+	public static void main(String[] args){
+		JFrame frame = new JFrame();
+		
+		String name1 = JOptionPane.showInputDialog("Enater Player one's name: ");
+		
+		String name2 = JOptionPane.showInputDialog("Enter Player two's name: ");
+		
+		String Player1 = (String) JOptionPane.showInputDialog(frame, 
+		        "Player one",
+		        "Player one",
+		        JOptionPane.QUESTION_MESSAGE, null,player,player[0]);
+		String[] Array2 = new String[2];
+		
+		int count = 0;
+		for(int i = 0; i < player.length; i++){
+			if (Player1 != player[i]){
+				
+				Array2[count] = player[i];
+				count++;
+			}
+		}
+		String Player2 = (String) JOptionPane.showInputDialog(frame, 
+		        "Player two",
+		        "Player two",
+		        JOptionPane.QUESTION_MESSAGE, null,Array2,Array2[0]);
+		
+		GUI checkers = new GUI(name1, name2);		
+	}
+	public static boolean checkWonB(String isBlueP[][], String isWhiteP[][]){
+		for(int y = 0; y  <8; y++){
+			for (int x = 0; x<8; x++){
+				if(isWhiteP[y][x] != ""){
+						  if(isWhiteP[y][x] == "k" && y+1 < 8 && x+1 < 8 && isWhiteP[y+1][x+1] == "" && isBlueP[y+1][x+1] == ""
+							|| isWhiteP[y][x] == "k" && y+1 <8 && x-1 >= 0 && isBlueP[y+1][x-1] == "" && isWhiteP[y+1][x-1] == ""
+							|| y-1>= 0 && x-1>=0 && isWhiteP[y-1][x-1] == "" && isBlueP[y-1][x-1] == ""
+							|| y-1 >= 0 && x+1 <8 && isWhiteP[y-1][x+1] == "" && isBlueP[y-1][x+1] == ""
+							||(y - 2 >=0 && x - 2 >=0 && isBlueP[y-1][x-1] != "" && (isWhiteP[y-2][x-2] == "" && isBlueP[y-2][x-2] == "" ))
+							|| (y-2 >= 0 && x + 2 <8 && isBlueP[y-1][x+1] != "" && (isWhiteP[y-2][x+2] == "" && isBlueP[y-2][x+2] == ""))
+							|| isWhiteP[y][x] == "k" && y+2 < 8  && x+2 < 8 && isBlueP[y+1][x+1] != "" && (isWhiteP[y+2][x+2] == "" && isBlueP[y+2][x+2] == "")
+							|| isWhiteP[y][x] == "k" && y+2 < 8 && x-2 >= 0 && isBlueP[y+1][x-1] != "" && (isWhiteP[y+2][x-2] == "" && isBlueP[y+2][x-2] == "")){
+							  return false;
+						  }
+				}
+			}	
+		}
+		return true;
+	}
+	public static boolean checkWonW(String isBlueP[][], String isWhiteP[][]){
+		for(int y = 0; y < 8; y++){
+			for (int x = 0; x<8; x++){
+				if(isBlueP[y][x] != ""){
+						  if(isBlueP[y][x] == "k" && y-1 >= 0 && x-1 >= 0 && isWhiteP[y-1][x-1] == "" && isBlueP[y-1][x-1] == ""
+							||isBlueP[y][x] == "k" && y-1 >= 0 && x+1 < 8 && isWhiteP[y-1][x+1] == "" && isBlueP[y-1][x+1] == ""
+							||y+1 < 8 && x+1 < 8 && isWhiteP[y+1][x+1] == "" && isBlueP[y+1][x+1] == ""
+							||y+1 < 8 && x-1 >= 0 && isWhiteP[y+1][x-1] == "" && isBlueP[y+1][x-1] == ""
+							|| (y +2 < 8 && x + 2 < 8 && isWhiteP[y+1][x+1] != "" && (isWhiteP[y+2][x+2] == "" && isBlueP[y+2][x+2] == "" ))
+							|| (y+2 <8 && x-2 >= 0 && isWhiteP[y+1][x-1] != "" && (isWhiteP[y+2][x-2] == "" && isBlueP[y+2][x-2] == ""))
+							|| isBlueP[y][x] == "k" && y-2 >= 0 && x+2 < 8 && isWhiteP[y-1][x+1] != "" && (isWhiteP[y-2][x+2] == "" && isBlueP[y-2][x+2] == "")
+							|| isBlueP[y][x] == "k" && y-2 >= 0 && x-2 >= 0 && isWhiteP[y-1][x-1] != "" && (isWhiteP[y-2][x-2] == "" && isBlueP[y-2][x-2] == "")){
+							  return false;
+					}
+				}
+			}
+		}
+		return true;
+		
+	}
+}

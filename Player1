@@ -2,12 +2,16 @@ package check;
 
 public class Player1 extends GUI{
 		
+	public Player1(String name1, String name2) {
+		super(name1, name2);
+		// TODO Auto-generated constructor stub
+	}
 	public static void Move(Object boardPos){
 		//System.out.println(boardPos);
 		
 		for (int i = 0; i < 8; i++){
 			for (int j = 0; j < 8; j++){
-				if(boardPos == boardPositions[i][j] && isWhiteP[i][j] != "" && check == 0 && ((justJumped && i == stillJumpY) || (!checkMove() || MoveCheck[i][j]))){
+				if(boardPos == boardPositions[i][j] && isWhiteP[i][j] != "" && check == 0 && ((justJumped && i == stillJumpY) || !checkMove() || MoveCheck[i][j])){
 				//	System.out.println(boardPositions[i][j]);
 					checkX = i;
 					checkY = j;
@@ -103,3 +107,7 @@ public class Player1 extends GUI{
 	}
 	
 }
+
+			
+		
+
